@@ -1,0 +1,28 @@
+# Jupyter
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# 비밀정보 (절대 커밋하지 않기)
+.env
+*.key
+*.pem
+*secret*
+*token*
+wpa_supplicant.conf
+
+# 교재·강의 자료 (저작권, 저장소에 넣지 않음)
+materials/
+교재/
+*.pdf
+
+# 용량이 큰 이미지·가상환경 파일
+*.zip
+*.ova
+*.img
+*.bin
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.vscode/
