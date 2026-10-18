@@ -25,6 +25,7 @@
 | 배터리 전압·전류 | 완료 | |
 | 외장 USB 웹캠 | 완료 | 컬러, IR 영상 확인 |
 | LiDAR | 완료 | 정면 거리, 4방향 거리 |
+| LiDAR + 모터 (장애물 정지) | 완료 | 300mm 이하에서 정지, 안전장치 시험 포함 |
 | IMU | 이상 | 응답이 0.00으로 고정, 제조사 문의 예정 |
 | 내장 CSI 카메라 | 미확인 | 부품(카메라 모듈, 리본 케이블) 누락, 외장캠으로 대체 |
 | 비전 · 미션 · ROS 2 | 예정 | |
@@ -35,10 +36,18 @@
 |---|---|
 | [LiDAR/lidar_front_distance.ipynb](LiDAR/lidar_front_distance.ipynb) | 정면 0° ±5° 거리의 중앙값(mm)을 출력. 스캔 시작 실패 시 재시도 |
 | [LiDAR/lidar_four_directions.ipynb](LiDAR/lidar_four_directions.ipynb) | 앞·뒤·좌·우(±10°) 거리를 0.3초마다 갱신. 읽기 스레드와 화면 갱신 분리 |
+| [LiDAR/lidar_obstacle_stop.ipynb](LiDAR/lidar_obstacle_stop.ipynb) | 전진하다가 정면 300mm 이하에서 정지. 오류·값 갱신 중단·최대 주행 시간 시 정지, 가짜 오류(`SIMULATE`)로 안전장치 시험 |
 
 ### LiDAR 방향 기준
 
 손으로 방향별로 가려서 확인한 결과, 로봇 기준으로 0°는 정면, 90°는 오른쪽, 180°는 뒤, 270°는 왼쪽입니다. 정면 거리는 자로 잰 값과 거의 일치했습니다.
+
+## 주행 실습 안전 메모
+
+- 새 주행 코드는 먼저 **바퀴를 띄운 상태**에서 확인한 뒤 바닥에서 실행합니다.
+- 최종 정지 수단은 **모터 전원 버튼**이므로, 주행 중에는 버튼 가까이에 손을 둡니다.
+- JupyterLab의 코드는 PC가 아니라 **로봇 안에서** 실행됩니다. 무선 연결이 끊기면 `■`(Interrupt)를 누를 수 없으므로, 코드 안에 최대 주행 시간과 장애물 정지를 넣어 둡니다.
+- 정지 거리는 속도(`DRIVE_POWER`)에 따라 달라집니다. 현재 값(80)에서만 확인했습니다.
 
 ## 트러블슈팅 기록
 
@@ -60,7 +69,8 @@ TIKI-MINI-LiDAR-STUDY/
 ├── .gitignore
 └── LiDAR/
     ├── lidar_front_distance.ipynb
-    └── lidar_four_directions.ipynb
+    ├── lidar_four_directions.ipynb
+    └── lidar_obstacle_stop.ipynb
 ```
 
 실습이 쌓이면 챕터별로 폴더를 추가할 예정입니다.
